@@ -14,7 +14,6 @@ RUN mkdir -p /my_backend_app/config /my_backend_app/app
 # Set the working directory for the config
 WORKDIR /my_backend_app/config
 
-
 # Install packages
 RUN pip install --no-cache-dir Flask
 RUN pip install --no-cache-dir debugpy
@@ -31,4 +30,4 @@ WORKDIR /my_backend_app/app
 EXPOSE 5000
 
 # Command to run Flask server
-CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]
+CMD ["sh", "-c", "FLASK_ENV=development FLASK_APP=. flask run --host=0.0.0.0 --no-debugger"]
