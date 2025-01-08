@@ -14,11 +14,6 @@ RUN mkdir -p /my_backend_app/config /my_backend_app/app
 # Set the working directory for the config
 WORKDIR /my_backend_app/config
 
-# Copy requirements.txt into the config directory
-COPY requirements.txt /my_backend_app/config/
-
-# Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
 
 # Install packages
 RUN pip install --no-cache-dir Flask
