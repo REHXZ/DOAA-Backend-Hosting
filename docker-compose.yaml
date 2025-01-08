@@ -1,0 +1,44 @@
+name: doaa-2b01-ca1-development
+
+services:
+
+  host_database:
+      build:
+        context: ./database
+        dockerfile: Dockerfile
+      image: doaa--ca1--mysql-57:doaa
+      container_name: doaa--ca1--mysql-57--container
+      ports:
+        - "3307:3306"
+      volumes:
+        - ./database/logs:/var/log/mysql
+        - ./database/data:/var/lib/mysql
+      environment:
+        - MYSQL_ROOT_PASSWORD=somepassword
+      networks:
+        - doaa_2b01_ca1_network_development
+
+  host_backend:
+      build:
+        context: ./backend
+        dockerfile: Dockerfile
+      image: doaa--ca1--backend:doaa
+      container_name: doaa--ca1--backend--container
+      ports:
+        - "5001:5000"
+        - "5679:5679" # For debugging
+      volumes:
+        - ./backend/app:/my_backend_app/app
+        - volume--ai-model:/my_backend_app/ai_model
+      depends_on:
+        - host_database
+      networks:
+        - doaa_2b01_ca1_network_development
+
+networks:
+  doaa_2b01_ca1_network_development:
+    driver: bridge
+
+volumes:
+  volume--ai-model:
+    name: doaa--2b01--ca1--ai-model--storage
